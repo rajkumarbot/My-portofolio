@@ -1,0 +1,499 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>ALPHONICSTUDIO | Premium Digital Motion & Design</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <!-- Animation Library -->
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap');
+        
+        :root {
+            --accent: #3b82f6;
+            --bg-dark: #050505;
+            --card-bg: #0f0f11;
+        }
+
+        * {
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        body {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            background-color: var(--bg-dark);
+            color: #ffffff;
+            scroll-behavior: smooth;
+            overflow-x: hidden;
+            width: 100%;
+        }
+
+        /* Glassmorphism Navigation */
+        .glass-nav {
+            background: rgba(5, 5, 5, 0.8);
+            backdrop-filter: saturate(180%) blur(20px);
+            -webkit-backdrop-filter: saturate(180%) blur(20px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .gradient-text {
+            background: linear-gradient(135deg, #60a5fa 0%, #a78bfa 50%, #f472b6 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        /* Responsive Video Card */
+        .video-card {
+            position: relative;
+            border-radius: 20px;
+            overflow: hidden;
+            background: #000;
+            transform: translateZ(0); /* Hardware acceleration */
+            transition: all 0.5s cubic-bezier(0.23, 1, 0.32, 1);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        @media (min-width: 768px) {
+            .video-card { border-radius: 32px; }
+            .video-card:hover {
+                transform: translateY(-10px) scale(1.02);
+                border-color: rgba(59, 130, 246, 0.5);
+                box-shadow: 0 30px 60px -12px rgba(0, 0, 0, 0.7);
+            }
+        }
+
+        .video-card video {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            aspect-ratio: 16/9;
+            filter: brightness(0.8);
+            transition: filter 0.5s ease;
+        }
+
+        .video-card:active video, .video-card:hover video {
+            filter: brightness(1.1);
+        }
+
+        .overlay-gradient {
+            background: linear-gradient(to top, rgba(0,0,0,0.95) 0%, rgba(0,0,0,0.4) 50%, transparent 100%);
+        }
+
+        /* Custom Scrollbar for Desktop */
+        @media (min-width: 1024px) {
+            ::-webkit-scrollbar { width: 6px; }
+            ::-webkit-scrollbar-track { background: var(--bg-dark); }
+            ::-webkit-scrollbar-thumb { background: #333; border-radius: 10px; }
+            ::-webkit-scrollbar-thumb:hover { background: var(--accent); }
+        }
+
+        /* Mobile Menu Animation */
+        #mobile-menu {
+            transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        
+        #mobile-menu.hidden-menu {
+            transform: translateY(-100%);
+        }
+
+        /* Responsive Text Sizing */
+        .hero-title {
+            font-size: clamp(2.5rem, 10vw, 8rem);
+        }
+
+        /* Section Spacing */
+        .section-padding {
+            padding-top: clamp(4rem, 10vh, 10rem);
+            padding-bottom: clamp(4rem, 10vh, 10rem);
+        }
+
+        /* Hide Scrollbar for mobile filters */
+        .no-scrollbar::-webkit-scrollbar {
+            display: none;
+        }
+        .no-scrollbar {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Navigation -->
+    <nav class="glass-nav fixed w-full z-[100] top-0 transition-all duration-300">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 py-4 md:py-5 flex justify-between items-center">
+            <div class="text-lg md:text-xl font-black tracking-tighter uppercase flex items-center gap-2 cursor-pointer" onclick="window.scrollTo(0,0)">
+                <span class="w-7 h-7 md:w-8 md:h-8 bg-blue-600 rounded-lg flex items-center justify-center text-[10px] md:text-xs">AS</span>
+                ALPHONIC<span class="text-blue-500">STUDIO</span>
+            </div>
+            
+            <!-- Desktop Menu -->
+            <div class="hidden lg:flex items-center space-x-10 text-[11px] font-bold uppercase tracking-widest text-gray-400">
+                <a href="#services" class="hover:text-white transition">Services</a>
+                <a href="#portfolio" class="hover:text-white transition">Portfolio</a>
+                <a href="#upload" class="hover:text-white transition">Upload</a>
+                <a href="https://wa.me/2347083034537" target="_blank" class="px-6 py-3 bg-white text-black rounded-full hover:bg-blue-500 hover:text-white transition-all transform active:scale-95">Contact</a>
+            </div>
+
+            <!-- Mobile Toggle -->
+            <button id="menu-toggle" class="lg:hidden text-2xl p-2 focus:outline-none">
+                <i class="fa-solid fa-bars-staggered"></i>
+            </button>
+        </div>
+    </nav>
+
+    <!-- Mobile Overlay Menu -->
+    <div id="mobile-menu" class="hidden-menu fixed inset-0 z-[90] bg-[#050505] pt-24 px-6 lg:hidden">
+        <div class="flex flex-col space-y-8 text-3xl font-bold">
+            <a href="#services" class="mobile-link border-b border-white/5 pb-4">Services</a>
+            <a href="#portfolio" class="mobile-link border-b border-white/5 pb-4">Portfolio</a>
+            <a href="#upload" class="mobile-link border-b border-white/5 pb-4">Upload</a>
+            <a href="https://wa.me/2347083034537" target="_blank" class="mobile-link text-blue-500">WhatsApp Me</a>
+        </div>
+        <div class="mt-12 flex gap-6">
+            <a href="https://instagram.com/alphonicstudio" target="_blank" class="text-2xl text-gray-400"><i class="fa-brands fa-instagram"></i></a>
+            <a href="mailto:alphonicstudio@gmail.com" class="text-2xl text-gray-400"><i class="fa-regular fa-envelope"></i></a>
+        </div>
+    </div>
+
+    <!-- Hero Section -->
+    <header class="relative min-h-[90vh] md:min-h-screen flex items-center px-4 sm:px-6 overflow-hidden pt-24">
+        <div class="absolute top-0 left-1/2 -translate-x-1/2 w-full h-full opacity-30 pointer-events-none">
+            <div class="absolute top-[-10%] left-[-10%] w-[80%] md:w-[50%] h-[50%] bg-blue-600/20 blur-[80px] md:blur-[120px] rounded-full"></div>
+            <div class="absolute bottom-[-10%] right-[-10%] w-[80%] md:w-[50%] h-[50%] bg-purple-600/20 blur-[80px] md:blur-[120px] rounded-full"></div>
+        </div>
+        
+        <div class="max-w-7xl mx-auto w-full relative z-10">
+            <div class="max-w-5xl" data-aos="fade-up" data-aos-duration="1000">
+                <h1 class="hero-title font-black mb-6 md:mb-8 leading-[0.9] tracking-tighter">
+                    CRAFTING <br><span class="gradient-text">DIGITAL MOTION</span>
+                </h1>
+                <p class="text-gray-400 text-base md:text-2xl max-w-2xl mb-10 md:mb-12 font-medium leading-relaxed">
+                    Premium 3D animation, SaaS explainers, and high-end digital design for the world's most ambitious brands.
+                </p>
+                <div class="flex flex-col sm:flex-row gap-4 sm:gap-5">
+                    <a href="#portfolio" class="px-8 md:px-10 py-4 md:py-5 bg-blue-600 text-white text-center font-bold rounded-xl md:rounded-2xl hover:bg-blue-700 transition-all shadow-xl shadow-blue-600/20">View Showcase</a>
+                    <a href="#upload" class="px-8 md:px-10 py-4 md:py-5 border border-white/10 backdrop-blur-md text-center rounded-xl md:rounded-2xl hover:bg-white/5 transition-all font-bold">Client Uploader</a>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Services Section -->
+    <section id="services" class="section-padding px-4 sm:px-6 bg-[#080808]">
+        <div class="max-w-7xl mx-auto">
+            <div class="mb-12 md:mb-20" data-aos="fade-right">
+                <span class="text-blue-500 font-bold uppercase tracking-[0.3em] text-[10px] md:text-xs">Capabilities</span>
+                <h2 class="text-3xl md:text-6xl font-bold mt-4">Full-Spectrum Design.</h2>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
+                <div class="group p-8 md:p-10 rounded-[24px] md:rounded-[32px] bg-[#121214] border border-white/5 hover:border-blue-500/30 transition-all" data-aos="fade-up">
+                    <div class="w-14 h-14 md:w-16 md:h-16 bg-blue-500/10 text-blue-500 rounded-xl md:rounded-2xl flex items-center justify-center mb-6 md:mb-8 text-2xl md:text-3xl">
+                        <i class="fa-solid fa-laptop-code"></i>
+                    </div>
+                    <h3 class="text-xl md:text-2xl font-bold mb-4">SaaS Explainer</h3>
+                    <p class="text-gray-400 text-sm md:text-base leading-relaxed">Turn complex workflows into simple, cinematic narratives that drive conversions.</p>
+                </div>
+
+                <div class="group p-8 md:p-10 rounded-[24px] md:rounded-[32px] bg-[#121214] border border-white/5 hover:border-green-500/30 transition-all" data-aos="fade-up" data-aos-delay="100">
+                    <div class="w-14 h-14 md:w-16 md:h-16 bg-green-500/10 text-green-500 rounded-xl md:rounded-2xl flex items-center justify-center mb-6 md:mb-8 text-2xl md:text-3xl">
+                        <i class="fa-solid fa-globe"></i>
+                    </div>
+                    <h3 class="text-2xl font-bold mb-4">Website Design</h3>
+                    <p class="text-gray-400 text-sm md:text-base leading-relaxed">Modern, responsive experiences designed with a focus on high-end visual aesthetics.</p>
+                </div>
+
+                <div class="group p-8 md:p-10 rounded-[24px] md:rounded-[32px] bg-[#121214] border border-white/5 hover:border-pink-500/30 transition-all" data-aos="fade-up" data-aos-delay="200">
+                    <div class="w-14 h-14 md:w-16 md:h-16 bg-pink-500/10 text-pink-500 rounded-xl md:rounded-2xl flex items-center justify-center mb-6 md:mb-8 text-2xl md:text-3xl">
+                        <i class="fa-solid fa-mobile-screen"></i>
+                    </div>
+                    <h3 class="text-2xl font-bold mb-4">App Design</h3>
+                    <p class="text-gray-400 text-sm md:text-base leading-relaxed">Intuitive mobile interfaces that blend functionality with cutting-edge visual quality.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Portfolio Grid -->
+    <section id="portfolio" class="section-padding px-4 sm:px-6">
+        <div class="max-w-7xl mx-auto">
+            <div class="flex flex-col md:flex-row justify-between items-start md:items-end mb-12 md:mb-16 gap-8">
+                <div data-aos="fade-right">
+                    <h2 class="text-3xl md:text-6xl font-bold">Selected Works</h2>
+                    <p class="text-gray-500 mt-2 md:mt-4 text-sm md:text-lg">A showcase of cinematic digital excellence.</p>
+                </div>
+                <!-- Desktop Filters -->
+                <div class="hidden sm:flex flex-wrap gap-2 md:gap-3" data-aos="fade-left">
+                    <button class="filter-btn active px-5 md:px-6 py-2 md:py-3 rounded-full text-[10px] md:text-xs font-black uppercase tracking-widest bg-blue-600 text-white" data-filter="all">All</button>
+                    <button class="filter-btn px-5 md:px-6 py-2 md:py-3 rounded-full text-[10px] md:text-xs font-black uppercase tracking-widest bg-white/5 text-gray-400" data-filter="saas">SaaS</button>
+                    <button class="filter-btn px-5 md:px-6 py-2 md:py-3 rounded-full text-[10px] md:text-xs font-black uppercase tracking-widest bg-white/5 text-gray-400" data-filter="website">Websites</button>
+                    <button class="filter-btn px-5 md:px-6 py-2 md:py-3 rounded-full text-[10px] md:text-xs font-black uppercase tracking-widest bg-white/5 text-gray-400" data-filter="app">Apps</button>
+                </div>
+                <!-- Mobile Filters -->
+                <div class="sm:hidden w-full overflow-x-auto pb-2 flex gap-3 no-scrollbar">
+                   <button class="filter-btn active whitespace-nowrap px-6 py-3 rounded-xl text-[10px] font-black uppercase bg-blue-600 text-white" data-filter="all">All Projects</button>
+                   <button class="filter-btn whitespace-nowrap px-6 py-3 rounded-xl text-[10px] font-black uppercase bg-white/5 text-gray-400" data-filter="saas">SaaS</button>
+                   <button class="filter-btn whitespace-nowrap px-6 py-3 rounded-xl text-[10px] font-black uppercase bg-white/5 text-gray-400" data-filter="website">Websites</button>
+                   <button class="filter-btn whitespace-nowrap px-6 py-3 rounded-xl text-[10px] font-black uppercase bg-white/5 text-gray-400" data-filter="app">Apps</button>
+                </div>
+            </div>
+            
+            <div id="portfolio-grid" class="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-10">
+                <!-- Project 1 -->
+                <div class="portfolio-item saas" data-aos="fade-up">
+                    <div class="video-card group">
+                        <video autoplay loop muted playsinline>
+                            <source src="https://storage.googleapis.com/s.mysp.ac/users/77526/videos/Cmospot%20saas%20explainer%20video%20.mp4" type="video/mp4">
+                        </video>
+                        <div class="absolute inset-0 overlay-gradient opacity-90 sm:opacity-90 sm:group-hover:opacity-70 transition-opacity"></div>
+                        <div class="absolute bottom-6 md:bottom-8 left-6 md:left-8 right-6 md:right-8">
+                            <span class="text-[9px] md:text-[10px] font-black uppercase tracking-[0.2em] px-3 py-1 bg-blue-600 rounded-lg mb-2 md:mb-3 inline-block">SaaS Explainer</span>
+                            <h4 class="text-2xl md:text-3xl font-bold">CMOspot Platform</h4>
+                            <p class="text-gray-400 text-xs md:text-sm mt-1 md:mt-2 sm:opacity-0 sm:group-hover:opacity-100 transition-all sm:translate-y-4 sm:group-hover:translate-y-0">Dynamic UI motion for growth analytics.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Project 2 -->
+                <div class="portfolio-item product" data-aos="fade-up" data-aos-delay="100">
+                    <div class="video-card group">
+                        <video autoplay loop muted playsinline>
+                            <source src="https://assets.mixkit.co/videos/preview/mixkit-close-up-of-a-keyboard-and-a-mouse-42353-large.mp4" type="video/mp4">
+                        </video>
+                        <div class="absolute inset-0 overlay-gradient opacity-90 sm:opacity-90 sm:group-hover:opacity-70 transition-opacity"></div>
+                        <div class="absolute bottom-6 md:bottom-8 left-6 md:left-8 right-6 md:right-8">
+                            <span class="text-[9px] md:text-[10px] font-black uppercase tracking-[0.2em] px-3 py-1 bg-purple-600 rounded-lg mb-2 md:mb-3 inline-block">Product 3D</span>
+                            <h4 class="text-2xl md:text-3xl font-bold">X-Pulse Series</h4>
+                            <p class="text-gray-400 text-xs md:text-sm mt-1 md:mt-2 sm:opacity-0 sm:group-hover:opacity-100 transition-all sm:translate-y-4 sm:group-hover:translate-y-0">Photorealistic rendering for tech brands.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Upload Section -->
+    <section id="upload" class="section-padding px-4 sm:px-6 bg-[#080808]">
+        <div class="max-w-4xl mx-auto">
+            <div class="text-center mb-10 md:mb-16" data-aos="fade-up">
+                <h2 class="text-3xl md:text-6xl font-bold mb-4">Launch Showcase</h2>
+                <p class="text-gray-500 text-sm md:text-base">Add your latest work to the grid instantly.</p>
+            </div>
+
+            <div id="drop-zone" class="upload-zone rounded-[30px] md:rounded-[40px] p-8 md:p-16 text-center transition-all duration-500 border-2 border-dashed border-white/10" data-aos="fade-up">
+                <input type="file" id="file-input" class="hidden" accept="video/mp4,video/webm">
+                <div id="upload-prompt" class="space-y-6">
+                    <div class="w-16 h-16 md:w-20 md:h-20 bg-blue-600/10 text-blue-500 rounded-full flex items-center justify-center mx-auto text-3xl">
+                        <i class="fa-solid fa-arrow-up-from-bracket"></i>
+                    </div>
+                    <div>
+                        <h3 class="text-xl md:text-2xl font-bold">Upload Video</h3>
+                        <p class="text-gray-500 mt-1 text-sm">MP4, WebM or MOV formats</p>
+                    </div>
+                    <button onclick="document.getElementById('file-input').click()" class="w-full sm:w-auto px-10 py-4 bg-white text-black font-black rounded-xl hover:bg-blue-600 hover:text-white transition-all uppercase tracking-widest text-[10px]">Select File</button>
+                </div>
+
+                <div id="upload-progress" class="hidden py-10">
+                    <div class="w-full bg-white/5 h-1.5 rounded-full overflow-hidden mb-6">
+                        <div id="progress-bar" class="h-full bg-blue-600 w-0 transition-all"></div>
+                    </div>
+                    <p class="text-blue-500 font-bold tracking-widest uppercase text-[10px]">Processing...</p>
+                </div>
+
+                <div id="upload-meta" class="hidden text-left space-y-5 max-w-md mx-auto">
+                    <div>
+                        <label class="text-[9px] font-black uppercase text-gray-500 tracking-[0.2em] mb-2 block">Project Title</label>
+                        <input type="text" id="v-title" placeholder="e.g. Modern Mobile UI" class="w-full bg-white/5 border border-white/10 p-4 rounded-xl focus:border-blue-500 outline-none transition-all">
+                    </div>
+                    <div>
+                        <label class="text-[9px] font-black uppercase text-gray-500 tracking-[0.2em] mb-2 block">Service Type</label>
+                        <select id="v-cat" class="w-full bg-white/5 border border-white/10 p-4 rounded-xl focus:border-blue-500 outline-none appearance-none">
+                            <option value="saas">SaaS Explainer</option>
+                            <option value="website">Website Design</option>
+                            <option value="app">App Design</option>
+                            <option value="product">Product 3D</option>
+                        </select>
+                    </div>
+                    <button id="publish-btn" class="w-full bg-blue-600 py-4 rounded-xl font-black uppercase tracking-widest hover:bg-blue-700 transition-all text-xs">Publish Live</button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer / Contact Section -->
+    <footer id="contact" class="bg-[#050505] pt-20 md:pt-32 pb-12 px-4 sm:px-6 border-t border-white/5">
+        <div class="max-w-7xl mx-auto">
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12 mb-20">
+                <div class="lg:col-span-2">
+                    <div class="text-2xl font-black mb-6 uppercase">ALPHONIC<span class="text-blue-500">STUDIO</span></div>
+                    <p class="text-gray-500 text-base md:text-lg max-w-sm mb-8 leading-relaxed">Pushing the boundaries of digital motion and visual storytelling. Available for global collaborations.</p>
+                    <div class="flex gap-4">
+                        <a href="https://instagram.com/alphonicstudio" target="_blank" class="w-12 h-12 rounded-xl bg-white/5 border border-white/10 flex items-center justify-center text-lg hover:bg-gradient-to-tr hover:from-purple-600 hover:to-pink-500 transition-all duration-300">
+                            <i class="fa-brands fa-instagram"></i>
+                        </a>
+                        <a href="https://wa.me/2347083034537" target="_blank" class="w-12 h-12 rounded-xl bg-white/5 border border-white/10 flex items-center justify-center text-lg hover:bg-green-600 transition-all duration-300">
+                            <i class="fa-brands fa-whatsapp"></i>
+                        </a>
+                        <a href="mailto:alphonicstudio@gmail.com" class="w-12 h-12 rounded-xl bg-white/5 border border-white/10 flex items-center justify-center text-lg hover:bg-blue-600 transition-all duration-300">
+                            <i class="fa-regular fa-envelope"></i>
+                        </a>
+                    </div>
+                </div>
+                
+                <div class="hidden md:block">
+                    <h5 class="text-[10px] font-black uppercase tracking-[0.3em] text-gray-500 mb-6">Menu</h5>
+                    <ul class="space-y-3 text-gray-400 font-bold text-sm">
+                        <li><a href="#services" class="hover:text-blue-500 transition">Services</a></li>
+                        <li><a href="#portfolio" class="hover:text-blue-500 transition">Portfolio</a></li>
+                        <li><a href="#upload" class="hover:text-blue-500 transition">Uploader</a></li>
+                    </ul>
+                </div>
+
+                <div>
+                    <h5 class="text-[10px] font-black uppercase tracking-[0.3em] text-gray-500 mb-6">Connect</h5>
+                    <ul class="space-y-6 text-gray-400 font-bold">
+                        <li>
+                            <p class="text-[9px] text-gray-600 uppercase mb-1">Email</p>
+                            <a href="mailto:alphonicstudio@gmail.com" class="hover:text-white transition block text-base md:text-lg">alphonicstudio@gmail.com</a>
+                        </li>
+                        <li>
+                            <p class="text-[9px] text-gray-600 uppercase mb-1">WhatsApp</p>
+                            <a href="https://wa.me/2347083034537" target="_blank" class="hover:text-white transition block text-base md:text-lg">+234 708 303 4537</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="pt-8 border-t border-white/5 flex flex-col md:flex-row justify-between items-center gap-4 text-center">
+                <p class="text-gray-600 text-[10px] font-bold uppercase tracking-widest">© 2026 Alphonic Studio</p>
+                <div class="flex gap-6 text-[10px] font-bold uppercase tracking-widest text-gray-600">
+                    <a href="#" class="hover:text-white transition">Privacy</a>
+                    <a href="#" class="hover:text-white transition">Terms</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        AOS.init({ duration: 800, once: true, easing: 'ease-out-quart' });
+
+        // Mobile Menu Logic
+        const menuToggle = document.getElementById('menu-toggle');
+        const mobileMenu = document.getElementById('mobile-menu');
+        const mobileLinks = document.querySelectorAll('.mobile-link');
+        
+        const toggleMenu = () => {
+            mobileMenu.classList.toggle('hidden-menu');
+            document.body.classList.toggle('overflow-hidden');
+            const icon = menuToggle.querySelector('i');
+            icon.classList.toggle('fa-bars-staggered');
+            icon.classList.toggle('fa-xmark');
+        };
+
+        menuToggle.addEventListener('click', toggleMenu);
+        mobileLinks.forEach(link => link.addEventListener('click', toggleMenu));
+
+        // File Upload Handling (Simulated for Demo)
+        const dropZone = document.getElementById('drop-zone');
+        const fileInput = document.getElementById('file-input');
+        const uploadPrompt = document.getElementById('upload-prompt');
+        const uploadProgress = document.getElementById('upload-progress');
+        const uploadMeta = document.getElementById('upload-meta');
+        const progressBar = document.getElementById('progress-bar');
+        const portfolioGrid = document.getElementById('portfolio-grid');
+        let currentFileUrl = null;
+
+        ['dragenter', 'dragover', 'dragleave', 'drop'].forEach(e => {
+            dropZone.addEventListener(e, (ev) => ev.preventDefault());
+        });
+
+        dropZone.addEventListener('dragover', () => dropZone.classList.add('bg-blue-600/5'));
+        dropZone.addEventListener('dragleave', () => dropZone.classList.remove('bg-blue-600/5'));
+
+        dropZone.addEventListener('drop', (e) => {
+            dropZone.classList.remove('bg-blue-600/5');
+            handleFile(e.dataTransfer.files[0]);
+        });
+
+        fileInput.addEventListener('change', (e) => handleFile(e.target.files[0]));
+
+        function handleFile(file) {
+            if (!file || !file.type.startsWith('video/')) return;
+            uploadPrompt.classList.add('hidden');
+            uploadProgress.classList.remove('hidden');
+
+            let progress = 0;
+            const interval = setInterval(() => {
+                progress += Math.random() * 15;
+                if (progress >= 100) {
+                    progress = 100;
+                    clearInterval(interval);
+                    currentFileUrl = URL.createObjectURL(file);
+                    uploadProgress.classList.add('hidden');
+                    uploadMeta.classList.remove('hidden');
+                }
+                progressBar.style.width = progress + '%';
+            }, 150);
+        }
+
+        document.getElementById('publish-btn').addEventListener('click', () => {
+            const title = document.getElementById('v-title').value || "New Creation";
+            const cat = document.getElementById('v-cat').value;
+            const colorMap = { 'saas': 'bg-blue-600', 'website': 'bg-green-600', 'app': 'bg-pink-600', 'product': 'bg-purple-600' };
+            const labelMap = { 'saas': 'SaaS Explainer', 'website': 'Website Design', 'app': 'App Design', 'product': 'Product 3D' };
+
+            const newItem = document.createElement('div');
+            newItem.className = `portfolio-item ${cat} w-full`;
+            newItem.setAttribute('data-aos', 'fade-up');
+            newItem.innerHTML = `
+                <div class="video-card group">
+                    <video autoplay loop muted playsinline><source src="${currentFileUrl}" type="video/mp4"></video>
+                    <div class="absolute inset-0 overlay-gradient opacity-95"></div>
+                    <div class="absolute bottom-6 left-6 right-6">
+                        <span class="text-[9px] font-black uppercase tracking-[0.2em] px-3 py-1 ${colorMap[cat]} rounded-lg mb-2 inline-block">${labelMap[cat]}</span>
+                        <h4 class="text-2xl font-bold">${title}</h4>
+                        <p class="text-gray-400 text-xs mt-1">Live Preview</p>
+                    </div>
+                </div>
+            `;
+            portfolioGrid.prepend(newItem);
+            uploadMeta.classList.add('hidden');
+            uploadPrompt.classList.remove('hidden');
+            document.getElementById('portfolio').scrollIntoView({ behavior: 'smooth' });
+            AOS.init();
+        });
+
+        // Filter Functionality
+        document.querySelectorAll('.filter-btn').forEach(btn => {
+            btn.addEventListener('click', function() {
+                const filter = this.getAttribute('data-filter');
+                document.querySelectorAll('.filter-btn').forEach(b => {
+                    b.classList.remove('active', 'bg-blue-600', 'text-white');
+                    b.classList.add('bg-white/5', 'text-gray-400');
+                });
+                this.classList.add('active', 'bg-blue-600', 'text-white');
+                document.querySelectorAll('.portfolio-item').forEach(item => {
+                    item.style.display = (filter === 'all' || item.classList.contains(filter)) ? 'block' : 'none';
+                });
+                AOS.refresh();
+            });
+        });
+
+        // Navbar Scroll Effect
+        window.addEventListener('scroll', () => {
+            const nav = document.querySelector('nav');
+            if (window.scrollY > 50) {
+                nav.style.background = 'rgba(5, 5, 5, 0.95)';
+            } else {
+                nav.style.background = 'rgba(5, 5, 5, 0.8)';
+            }
+        });
+    </script>
+</body>
+</html>
+
